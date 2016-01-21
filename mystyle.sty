@@ -1,0 +1,460 @@
+% Typography
+% ----------
+% We do this first because some of the next changes need to know the parindent
+
+% Set space between paragraphs
+\parskip0pt
+
+% Lets try to avoid both small last lines in paragraphs and last lines that
+% take up all the space
+\parindent=23.5pt
+\parfillskip=30pt plus 0.8\textwidth
+
+
+% Packages
+% --------
+\usepackage{booktabs}
+\usepackage{rotating}
+%\usepackage[mathscr]{euscript}
+\usepackage{bbold}
+\usepackage{amsmath}
+
+\usepackage[inline]{enumitem}
+    \setlist[itemize]{
+        topsep=0.5\baselineskip,
+        itemsep=0.1\baselineskip,
+        parsep=0pt,
+        leftmargin=*,
+        labelindent=\parindent,
+        rightmargin=\parindent
+    }
+    \setlist[enumerate]{
+        topsep=0.5\baselineskip,
+        itemsep=0.1\baselineskip,
+        parsep=0pt,
+        leftmargin=*,
+        labelindent=\parindent,
+        rightmargin=\parindent
+    }
+    \setlist[description]{
+        topsep=0.5\baselineskip,
+        itemsep=0.1\baselineskip,
+        parsep=0pt,
+        leftmargin=2\parindent,
+        rightmargin=\parindent,
+        labelindent=\parindent,
+        labelsep=0.5em
+    }
+    \renewcommand{\labelitemi}{--}
+    
+    \newlist{paralist}{enumerate*}{1}
+    \setlist[paralist]{
+        label={\textit{\roman*}\kern 0.025em)},
+        ref=\textit{\roman*}
+    }
+
+\usepackage[outputdir=out,newfloat]{minted}
+    \usemintedstyle{trac}
+    \AtBeginEnvironment{minted}{\SingleSpacing\small}
+    \RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
+
+% To do notes and other self annotations
+\usepackage[colorinlistoftodos]{todonotes}
+    \setlength{\marginparwidth}{2cm}
+    \tikzset{notestyleraw/.append style={rounded corners=0pt}}
+    \def\missing{\todo[color=red!60,size=\scriptsize]{missing}}
+    \def\margin{\todo[color=blue!50,size=\scriptsize]}
+    \def\todoinline{\@ifstar\todoinline@\todoinline@@}
+    \def\todoinline@{\vspace{1.5ex}\todo[inline,color=pink]}
+    \def\todoinline@@{\vspace{1.5ex}\todo[inline,color=yellow]}
+
+
+% Configure hyperref
+\usepackage{xcolor}
+\definecolor{darkblue}{rgb}{0.0,0.08,0.45}
+\usepackage[
+    breaklinks,
+    colorlinks=true,
+    pdfdisplaydoctitle,
+    allcolors=darkblue,
+    linkcolor=black,
+    citecolor=black,
+]{hyperref}
+\usepackage{memhfixc} % Must be used with memoir class after hyperref!
+
+\usepackage{afterpage}
+
+% Ragged bottom
+% -------------
+\raggedbottom
+
+% Floats on a dedicated page start from the top
+% ---------------------------------------------
+\newlength\@fptop@backup
+\def\thisfloatontop{%
+    \setlength{\@fptop@backup}{\@fptop}
+    \setlength{\@fptop}{0pt}
+    \afterpage{\setlength{\@fptop}{\@fptop@backup}}
+}
+
+% Typesetting
+% -----------
+
+% Typographic styles used for specific items in the text
+
+\urlstyle{sf} % From the hyperref package
+
+\def\ontology{\textbb}
+\def\term{\protect\textsf}
+\def\prop#1{\leavevmode\protect\hbox{\protect\textit{#1}}}
+
+\def\owlsql{\mbox{\texttt{OWLtoSQL}}}
+\def\mossy{\mbox{\texttt{MOSSy}}}
+\def\knn{$k$-NN\space@}
+\def\andor{and\slash or\space@}
+
+\def\kegg#1{KEGG~\MakeLowercase{\textsc{#1}}}
+\def\json#1{\texttt{"#1"}}
+
+% Change emphasised text to use slanted rather than italic. On already
+% emphasised text, use bold instead
+\DeclareRobustCommand{\em}{%
+    \@nomath\em
+    \ifdim\fontdimen\@ne\font>\z@
+        \bfseries
+    \else
+        \slshape
+    \fi
+}
+
+% % Change \ldots to be more appealing: remove the previous space, put a non
+% % breaking space, put the original definition of the \ldots, remove the extra
+% % kern that it puts on the document and finally add a space, if the following
+% % text is not "special"
+% \let\old@ldots=\ldots
+% \renewcommand\ldots{%
+%     \ifvmode
+%     \else\unskip~\fi
+%     \old@ldots\unkern
+%     \space@}
+
+% Define a macro that inserts a space if the next character is not "special"
+% (punctuation and spaces are special)
+\newif\if@needspace
+\def\space@{\futurelet\next\put@space}
+\def\put@space{%
+    \@needspacetrue
+    \ifx\next,\@needspacefalse\else
+    \ifx\next.\@needspacefalse\else
+    \ifx\next)\@needspacefalse\else
+    \ifx\next!\@needspacefalse\else
+    \ifx\next?\@needspacefalse\else
+    \ifx\next'\@needspacefalse\else
+    \ifx\next;\@needspacefalse\else
+    \ifx\next]\@needspacefalse\else
+    \ifx\next\ \@needspacefalse
+    \fi\fi\fi\fi\fi\fi\fi\fi\fi
+    \if@needspace{ }\fi
+}
+
+\def\mdash{\unskip\,---\,}
+
+% Allow macro names in moving parts
+\def\macroname#1{\protect\@makename{#1}}
+\def\@makename#1{%
+    {\ttfamily\expandafter\string\csname#1\endcsname}%
+}
+
+% This creates a new counter to typeset paragraphs with numeration
+\newcounter{point}[section]
+\newcommand{\point}[1]{%
+    \stepcounter{point}%
+    \paragraph{\arabic{point}.\hskip 0.7em\relax #1}}
+
+% I.e. and E.g
+% In this commands, we gobble a following comma, if one exists.
+\def\@gobble@comma{\@ifnextchar,\@gobble\relax}
+\def\inner@space{\nobreak\hspace{0.16667em minus 0.05556em}}
+\def\ie{\emph{i.\inner@space e.}~\@gobble@comma}
+\def\eg{\emph{e.\inner@space g.}~\@gobble@comma}
+
+\def\@gobble@prev@space{\relax\ifdim\lastskip>0pt \unskip~\fi}
+\def\etc.{\@gobble@prev@space\emph{etc}.}
+\def\vs{\@gobble@prev@space\emph{vs.}~}
+\def\cf{\emph{cf.}~}
+\def\Cf{\emph{Cf.}~}
+
+
+% Quote environment
+\renewenvironment{quote}{%
+    \begin{itemize}[%
+            label={},%
+            before=\setlength{\rightmargin}{\parindent}%
+                   \setlength{\leftmargin }{\parindent}%
+    ]
+        \item\relax
+        \leavevmode
+        \vbox to 0pt{%
+        \vskip-12pt
+        \hbox to 0pt{%
+            \hskip-8pt
+            \fontsize{30}{35}\selectfont
+            \bfseries
+            \color[rgb]{0.7,0.7,0.7}
+            ^^ ^^ \hss
+        }\vss}%
+        \hskip6pt
+        \widowpenalties 1 10000
+}{%
+        \unskip
+        \vbox to 0pt{%
+        \vskip-10pt
+        \hbox to 1em{%
+            \fontsize{30}{35}\selectfont
+            \bfseries
+            \color[rgb]{0.7,0.7,0.7}
+            ^^g^^g\hss
+        }\vss}%
+    \end{itemize}%
+}
+
+\newenvironment{note-paper}{%
+    \small
+    \begin{quote}
+}{%
+    \end{quote}% Make sure the next paragraph does not start indented
+    \par
+    \aftergroup\@afterindentfalse
+    \aftergroup\@afterheading
+}
+
+
+% Axioms stuff
+% ------------
+\newenvironment{axiom}{%
+    \begin{itemize}[label={},before=\setlength{\rightmargin}{\leftmargin}]
+        \rightmargin=\leftmargin
+        \centering
+        \item\relax
+}{
+    \end{itemize}
+}
+\def\existential#1#2#3{%
+    ${\term{#1} \: \sqsubseteq \: \exists \, \prop{#2} \, . \, \term{#3}}$}
+
+
+% Mathematical stuff
+% ------------------
+
+% General mathematics
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+% This next macro is used to create mathematical operators that can be decorated
+% with a subscript that should be typeset in roman. #1 is the control sequence
+% and #2 is the replacement of the operator.
+\def\my@new@op#1#2{%
+    % Start by defining an inner control sequence (\cs@op, where cs is the name
+    % of the control sequence given in #1)
+    \expandafter\def\expandafter\op@cs\expandafter{%
+        \csname\expandafter\@gobble\string#1@op\endcsname
+    }%
+    \expandafter\DeclareMathOperator\op@cs{#2}%
+    \expandafter\def\expandafter#1\expandafter{\op@cs\futurelet\next\@op@subscript}%
+}
+\def\@op@subscript{\ifx\next[\expandafter\put@op@subscript\fi}
+\def\put@op@subscript[#1]{_\mathrm{#1}}
+
+\my@new@op\sim{sim}
+\my@new@op\rel{rel}
+\my@new@op\IC{IC}
+\my@new@op\dist{d}
+
+
+% Other operators
+\DeclareMathOperator\CA{CA}
+\DeclareMathOperator\DCA{DCA}
+\DeclareMathOperator\MICA{MICA}
+\DeclareMathOperator\anc{A}
+\DeclareMathOperator\ferreira{\rel[Ferreira]}
+
+\DeclareMathOperator\ICs{\IC[s]}
+\DeclareMathOperator\ICsdis{\IC[s]^\mathrm{disj}}
+
+\def\weight#1#2{\omega(#1\rightarrow#2)}
+
+
+% Internal references
+% -------------------
+
+\def\comma@main@do#1,#2{%
+    \def\reserved@a{#1}% ATTENTION!! Does not hold with \comma@main@do{ } !!
+    \ifx\reserved@a\@empty % If #1 is empty do nothing; otherwise
+    \else
+        \ifx\reserved@a\space % If #1 is a space do nothing as well; otherwise
+        \else
+            \comma@process@item{#1}\comma@glue % Process this
+        \fi
+    \fi
+    \ifx #2\@empty\else\expandafter\comma@main@do\fi#2%
+}
+\def\comma@glue{}
+\def\comma@process@item#1{#1}
+
+\newcount\comma@count
+\newif\ifref@with@name
+\def\multi@ref#1#2{{% Nest a new group for local assignments
+    % #1 - The command to typeset the prefix
+    % #2 - The user input
+    \comma@count=0
+    % Count the number of references
+    \def\comma@process@item##1{\advance\comma@count by 1 }%
+    \comma@main@do #2,\@empty
+    % Print ``section'' or ``sections'' accordingly
+    \ifnum\comma@count<1
+        \@latex@warning{%
+            \expandafter\noexpand\@thisref\ called without arguments on page \thepage.}%
+    \else % Something is to be written
+        #1%
+        \def\comma@glue{%
+            \advance\comma@count by -1
+            % If we have more than one to reach the end, put ", "
+            \ifnum\comma@count>1 , \fi
+            % If there is exactly one more, put " and~"
+            \ifnum\comma@count=1 \space and~\fi
+            % If \comma@count = 0, we insert nothing.
+        }%
+        \ifref@with@name
+            \def\comma@process@item##1{\ref{##1}\comma@or@space``\nameref{##1}''}%
+        \else
+            \def\comma@process@item{\ref}%
+        \fi
+        \comma@main@do #2,\@empty
+    \fi
+}}
+
+\def\secref@prefix{\ifnum\comma@count<2 Section\else  Sections\fi  ~}
+\def\chpref@prefix{\ifnum\comma@count<2 Chapter\else  Chapters\fi  ~}
+\def\appref@prefix{\ifnum\comma@count<2 Appendix\else Appendices\fi~}
+
+\def\secref{\def\@thisref{\secref}\ref@with@nametrue \multi@ref\secref@prefix}
+\def\chpref{\def\@thisref{\chpref}\ref@with@nametrue \multi@ref\chpref@prefix}
+\def\appref{\def\@thisref{\appref}\ref@with@nametrue \multi@ref\appref@prefix}
+
+\def\figref#1{\textbf{Figure~\ref{#1}}}
+\def\tabref#1{\textbf{Table~\ref{#1}}}
+\def\lstref#1{\textbf{Listing~\ref{#1}}}
+
+\let\oldeqref\eqref
+\def\eqref@prefix{\ifnum\comma@count<2 eq.\else eqs.\fi~}
+\def\eqref{\def\@thisref{\secref}\ref@with@namefalse \multi@ref\eqref@prefix}
+
+\def\comma@or@space{%
+    ~%\discretionary{,}{}{\hbox{ }}%
+    %\penalty10000 % Large penalty to prevent unnecessary breaks in this location
+    \nobreak\hskip\z@skip % Allow next word to be automatically hyphenized
+}
+
+
+% Figure and table captions
+\let\oldcaption\caption
+\renewcommand{\caption}[2][\relax]{%
+    \ifx#1\relax
+        \oldcaption{#2}
+    \else
+        \oldcaption[#1]{\textbf{#1}. #2}
+    \fi
+}
+\captiondelim{ -- }
+\captionwidth{0.90\textwidth} \changecaptionwidth
+\captiontitlefont{}
+\captionnamefont{\bfseries\small}
+\captionstyle{\small}
+
+% I want to center the last line of the caption. I could use
+% \centerlastline but I don't like lines that are excessively empty.
+% As such, I have to rewrite the macro that typesets the caption.
+\long\def\@@makecaption#1#2{%
+    \let\@contfnote\footnote \renewcommand{\footnote}[2][]{}
+    \let\@contfmark\footnotemark \renewcommand{\footnotemark}[1][]{}
+    \let\@contpnote\pagenote\renewcommand\pagenote[2][]{}
+    \sbox\@tempboxa{{\@contnfont #1\@contdelim}\@conttfont #2\@contfinal}
+    \let\footnote\@contfnote
+    \let\footnotemark\@contfmark
+    \let\pagenote\@contpnote
+    \ifdim\wd\@tempboxa<\linewidth \centering \fi
+    \if@contcw
+        \centering
+        \parbox[t]{\@contcwidth}{%
+        \ifdim\wd\@tempboxa<\@contcwidth \centering \fi
+    \fi
+    \ifdim\wd\@tempboxa<\linewidth
+        \@contpre
+        {\@contnfont #1\@contdelim}\@memtempa
+        {\@contcshortstyle \@conttfont #2\@contfinal\par}
+    \else
+        \if@conthang
+            \sbox\@tempboxa{\@contnfont #1\@contdelim}
+            \@contpre%
+            {\@contcstyle\hangindent=\wd\@tempboxa
+             \noindent\box\@tempboxa\@memtempa \@conttfont #2\@contfinal\par}
+        \else
+            \if@contindent
+                \@contpre%
+                {\@contnfont #1\@contdelim}\@memtempa
+                {\@contcstyle\hangindent=\@contindw
+                 \hangafter=\@ne\@conttfont #2\@contfinal\par}% <- v1.4
+            \else
+                \begingroup
+                % Use a parfillskip that prevents last lines that are too big
+                % and create a vertical box with that caption
+                \setbox0=\vbox{%
+                    \parfillskip=5em plus 0.6\textwidth
+                    % \parfillskip=23.5pt plus 0.6\textwidth
+                    \@contpre%
+                    {\@contnfont #1\@contdelim}\@memtempa
+                    {\@contcstyle \@conttfont #2\@contfinal\par}%
+                }
+                % Now create a new vertical box with the contents of the
+                % previous, but make sure the last item in the box (the last
+                % line) is centred. To do that, we need to use the "fill"
+                % macros and to remove the last two glues in that line, which
+                % are \rightskip and \parfillskip
+                \setbox1=\vbox{%
+                    \unvbox0
+                    \setbox2=\lastbox
+                    \hbox to \hsize{\hfill\unhbox2 \unskip\unskip\hfill}%
+                }
+                \unvbox1
+                \endgroup
+            \fi
+        \fi
+    \fi
+    \@contpost
+    \if@contcw
+        \par
+        }  % end of the \parbox
+    \fi
+}
+
+
+% Headers and footers
+% -------------------
+
+%\makepagestyle{name}
+\pagestyle{ruled}
+
+
+% Subfloats
+% ---------
+
+\newsubfloat{figure}
+% \captionnamefont{\bfseries\small}
+% \captiontitlefont{\itshape\small}
+% \subcaptionlabelfont{\bfseries\small}
+% \subcaptionfont{\itshape\small}
+
+
+% TOC page numbers need more space
+\setpnumwidth{1.75em}
+

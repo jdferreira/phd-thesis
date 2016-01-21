@@ -1,0 +1,38 @@
+\documentclass[crop,tikz,12pt]{standalone}
+
+\usepackage{tikz-qtree}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{decorations.text}
+
+\definecolor{bg1}{RGB}{244,231,195}
+\definecolor{bg2}{RGB}{234,204,161}
+\definecolor{l1}{RGB}{209,148,106}
+
+
+\begin{document}
+
+\begin{tikzpicture}[
+    level distance=4em,
+    sibling distance=2em,
+    every tree node/.style={
+        align=center, font=\sffamily
+    },
+    edge from parent/.append style={
+        line width=0,
+        color=l1
+    },
+    edge from parent path={
+        (\tikzparentnode.south) -- +(0,-1em) -| (\tikzchildnode)
+    },
+]
+    \Tree [
+        .{\textbf{Semantic similarity}}
+            Single-ontology
+            [ .Multiple-ontology
+                Single-domain
+                Multi-domain
+            ]
+    ]
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,29 @@
+\cleardoublepage
+\pdfbookmark{Abstract}{Abstract}
+\begin{abstract}
+
+The need to compare complex entities is relevant in all the areas of science. In medicine, for example, comparing a clinical case to a database of previous cases can be extremely helpful when trying to diagnose a disease or deciding the most appropriate treatment for a patient.
+
+% ; in journalism, in particular online journalism, comparing news can be used
+% to track user preferences which, in turn, can help select information to be
+% presented on the screen based on its relevance to the user.
+
+Recent developments in knowledge representation, in particular the creation of the Web Ontology Language (OWL), have lead to a rise in the amount of knowledge that is being stored in \emph{ontologies}, which represent, in machine-readable format, the known facts about reality. With the help of ontologies, statements like ``\term{Influenza} is an \term{Infectious disease}'' can be processed by computers, which, in turn, can be used to create new knowledge. In particular, \emph{semantic similarity} has emerged to explore these ontologies as a way to compare entities annotated with the ontology concepts.
+
+% Because it is known that \term{Arms} are \term{Limbs} and that \term{Legs} are also \term{Limbs}, it can be assessed that the similarity between \term{Arm} and \term{Leg} is higher than the similarity between \term{Arm} and, e.g.~\term{Head}.
+
+Semantic similarity has been extensively studied in the last decade, but some problems still persist. While there are algorithms to compare entities annotated with concepts from the same ontology, the possible ways to use \emph{more than one ontology} are still in an early phase of study. For example, comparing a metabolic pathway using both the associated molecular functions and the metabolites converted in the pathway should, in principle, yield a higher precision than would be achieved with methodologies that rely on either one of the two domains independently. Comparing concepts from \emph{different domains} and entities annotated with concepts from different domains is yet an unexplored area, but necessary to tackle multidisciplinary biomedical resources, \eg to compare two clinical cases, the relationships between symptoms, diseases, blood screening results, \etc.\ should provide a more insightful and precise value of similarity.
+
+In this document, I explain the basic concepts needed to understand the problem of semantic similarity, how it is being solved, and how I propose to extend this notion so that it can be applied to more than one ontology and, more significantly, to more than one domain of knowledge.
+
+\begin{keywords}
+    Multi-domain semantic similarity,
+    Biomedical ontologies,
+    Biomedical annotated entities,
+    Web Ontology Language,
+    Semantic web,
+    Semantic similarity validation,
+    Multidisciplinarity of biomedical data
+\end{keywords}
+
+\end{abstract}

@@ -1,0 +1,39 @@
+\documentclass[a4paper,11pt]{memoir}
+\usepackage[
+    layoutheight=297mm,
+    layoutwidth=13mm,
+    paperheight=297mm,
+    paperwidth=13mm,
+    layoutvoffset=0mm,
+    layouthoffset=-6mm,
+    margin=0pt,
+]{geometry}
+\usepackage{graphicx}
+\usepackage{calc}
+
+\begin{document}
+
+\sffamily
+
+\makebox[\paperwidth][c]{%
+  \makebox[11mm][c]{%
+    \begin{minipage}[t][.95\paperheight][c]{11mm}
+      \centering
+      \includegraphics[width=10mm]{internal/logo-ciencias.png}\\
+      \vfill
+      \setlength{\textfloatsep}{1pt}%
+      \rotatebox{90}{%
+      \begin{tabular}{c}
+      \textbf{Semantic Similarity Across Biomedical Ontologies} \\[0.6ex]
+      Jo\~ao Ferreira
+      \end{tabular}}
+      \vfill
+      {\sffamily 2016}%
+    \end{minipage}%
+  }%
+}
+
+
+\end{document}
+
+

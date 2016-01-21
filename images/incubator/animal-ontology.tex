@@ -1,0 +1,53 @@
+\documentclass[crop,tikz,12pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{dot2texi}
+
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows.meta}
+
+\definecolor{bg1}{RGB}{244,231,195}
+\definecolor{bg2}{RGB}{234,204,161}
+\definecolor{l1}{RGB}{209,148,106}
+
+\begin{document}
+
+\begin{tikzpicture}[
+    font=\sffamily,
+    l/.style={
+        line width=0,
+        color=l1
+    },
+    n/.style={
+        font=\sffamily
+    },
+]
+
+\node (Animal)    at ( 0.0,4.0) [n] {Animal};
+\node (Amphibian) at (-4.5,2.0) [n] {Amphibian};
+\node (Carnivore) at (-1.5,2.0) [n] {Carnivore};
+\node (Mammal)    at ( 1.5,2.0) [n] {Mammal};
+\node (Herbivore) at ( 4.5,2.0) [n] {Herbivore};
+\node (Frog)      at (-3.0,0.0) [n] {Frog};
+\node (Wolf)      at ( 0.0,0.0) [n] {Wolf};
+\node (Cow)       at ( 3.0,0.0) [n] {Cow};
+
+\def\d#1#2{
+    \draw [l] (#1.south) -- ++(0, -1ex) -- ($(#2.north) + (0, 1ex)$) -- (#2);
+}
+
+\d{Animal}{Amphibian}
+\d{Animal}{Mammal}
+\d{Animal}{Carnivore}
+\d{Animal}{Herbivore}
+
+\d{Amphibian}{Frog}
+\d{Mammal}{Wolf}
+\d{Mammal}{Cow}
+\d{Carnivore}{Frog}
+\d{Carnivore}{Wolf}
+\d{Herbivore}{Cow}
+
+\end{tikzpicture}
+
+\end{document}

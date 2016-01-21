@@ -1,0 +1,102 @@
+\documentclass[crop,tikz,12pt]{standalone}
+
+\usepackage{tikz}
+% \usepackage{tikz-qtree}
+
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{fadings}
+
+\tikzfading[
+    name=fade right,
+    left color=transparent!100,
+    right color=transparent!0
+]
+  
+\definecolor{bg1}{RGB}{244,231,195}
+\definecolor{bg2}{RGB}{234,204,161}
+\definecolor{l1}{RGB}{209,148,106}
+
+\begin{document}
+
+\begin{tikzpicture}[
+    l/.style={
+        line width=0,
+        color=l1
+    },
+    n/.style={
+        font=\sffamily,
+        rounded corners,
+        line width=0.4pt
+    },
+    d/.style={dashed, line width=0.8pt}
+]
+
+% \begin{scope}[
+%     level distance=4em,
+%     sibling distance=2em,
+%     every tree node/.style={
+%         align=center, font=\sffamily
+%     },
+%     edge from parent/.append style={
+%         line width=0,
+%         color=l1
+%     },
+%     edge from parent path={
+%         (\tikzparentnode.south) -- +(0,-1em) -| (\tikzchildnode)
+%     },
+%     every edge/.append style={
+%         dashed, draw=l1,
+%         -{Computer Modern Rightarrow[] . Computer Modern Rightarrow[]}
+%     }
+% ]
+
+%     \Tree [.
+%         \node (Shape) [n] {Shape}; [.
+%             \node (Quadrilateral) [n] {Quadrilateral};
+%                 \node (Rhombus) [n] {Rhombus};
+%                 \node (Trapezoid) [n] {Trapezoid};
+%                 \node (Square) [n] {Square};
+%                 \node (Rectangle) [n] {Rectangle};
+%                 \node (Parallelogram) [n] {Parallelogram};
+%         ]
+%         \node (Triangle) [n] {Triangle};
+%     ]
+
+% \end{scope}
+
+\clip (-12, 4.5) rectangle (3,-1.5);
+
+\node (Shape)         at ( 0.0,4.0) [n] {Shape};
+\node (Quadrilateral) at (-6.0,2.0) [n] {Quadrilateral};
+\node (Triangle)      at ( 6.0,2.0) [n] {Triangle};
+\node (Trapezoid)     at (-5.5,0.0) [n] {Trapezoid};
+\node (Square)        [n,left=2em of Trapezoid] {Square};
+\node (Rhombus)       [n,left=2em of Square] {Rhombus};
+\node (Rectangle)     [n,right=2em of Trapezoid] {Rectangle};
+\node (Parallelogram) [n,right=2em of Rectangle] {Parallelogram};
+
+\def\d#1#2{
+    \draw [l] (#1.south) -- ++(0, -1.5em) -| (#2);
+}
+
+\d{Shape}{Quadrilateral}
+\d{Shape}{Triangle}
+\d{Quadrilateral}{Rhombus}
+\d{Quadrilateral}{Trapezoid}
+\d{Quadrilateral}{Square}
+\d{Quadrilateral}{Rectangle}
+\d{Quadrilateral}{Parallelogram}
+
+\draw [d] (Quadrilateral) edge (Triangle);
+\draw [d] (Trapezoid) edge (Square);
+\draw [d] (Trapezoid) edge (Rectangle);
+\draw [d,out=330,in=210] (Trapezoid.330) edge (Parallelogram);
+\draw [d,out=210,in=330] (Trapezoid) edge (Rhombus);
+
+\fill[white,path fading=fade right] (1,4) rectangle (3,0);
+
+\end{tikzpicture}
+
+\end{document}

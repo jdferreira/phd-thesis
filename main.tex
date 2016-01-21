@@ -1,0 +1,101 @@
+\documentclass[doctype=phd,lang=en,bibstyle=apa]{ulthesis}
+
+\usepackage{mystyle}
+
+% Cover content
+\department {Departamento de Informática}
+\title      {Semantic Similarity Across\\Biomedical Ontologies}
+\programme  {Doutoramento em Informática}
+\branch     {Especialidade Bioinformática}
+\author     {João Diogo Silva Ferreira}
+\advisor    {Prof. Dr. Francisco José Moreira Couto}
+\date       {2016}
+
+% References
+%\addbibresource{content/references.bib}
+\addbibresource{content/references-mendeley.bib}
+
+% During typesetting we might be interested in one chapter at a time
+% \includeonly{
+%     frontmatter/dedicatory,
+%     frontmatter/acknowledgements,
+%     content/00-abstract-pt,
+%     content/00-abstract-en,
+%     content/01-introduction,
+%     content/02-concepts,
+%     content/03-state-of-the-art,
+%     content/04-validation,
+%     content/05-enhancements,
+%     content/05a-interlude,
+%     content/06-data-description,
+%     content/07-multidomain,
+%     content/08-technical,
+%     content/09-conclusions,
+%     content/appendix-a,
+%     content/appendix-b,
+% }
+
+
+% Start document
+\begin{document}
+
+\setcounter{page}{-6}
+\pagenumbering{gobble}
+
+\coverpage
+
+\include{frontmatter/dedicatory}
+\include{frontmatter/acknowledgements}
+
+% Start numbering pages with Roman numerals
+\frontmatter
+
+% Abstracts in several languages
+\startabstract[pt]\include{content/00-abstract-pt}
+\startabstract[en]\include{content/00-abstract-en}
+
+% Lists in the front matter
+\cleardoublepage
+\tableofcontents*
+{\def\mathversion#1{}\cleardoublepage\listoffigures}
+{\def\textbf{}\cleardoublepage\listoftables}
+\cleardoublepage\listoflistings
+
+% \cleardoublepage\listoftodos
+
+% Switch to Arabic numeration
+\mainmatter
+
+\part{Background}
+\epigraph{Imagination is the beginning of creation. You imagine what you desire, you will what you \penalty-500 imagine and at last you create what you will.}{George Bernard Shaw}
+
+\include{content/01-introduction}
+\include{content/02-concepts}
+\include{content/03-state-of-the-art}
+
+\part{Contributions}
+\epigraph{Scientists have become the  bearers of the torch of discovery in our quest for knowledge.}{Stephen Hawking}
+
+\include{content/04-validation}
+\include{content/05-enhancements}
+\include{content/05a-interlude}
+\include{content/06-data-description}
+\include{content/07-multidomain}
+\include{content/08-technical}
+
+\part{Final remarks}
+\epigraph{I think and think for months and years. Ninety-nine times, the conclusion is false. The hundredth time I am right.}{Albert Einstein}
+
+\include{content/09-conclusions}
+
+\part{Back Matter}
+\epigraph{The moment a man sets his thoughts down on paper, he is in a sense writing for publication.}{Raymond Chandler}
+
+\appendix
+\include{content/appendix-a}
+\include{content/appendix-b}
+
+\small
+\printbibliography
+
+\end{document}

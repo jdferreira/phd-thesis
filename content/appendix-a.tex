@@ -1,0 +1,50 @@
+\chapter{List of ontologies} \label{app:ontologies}
+
+The biomedical informatics community is highly committed to the machine-readable representation of biomedical knowledge. This is illustrated by the increasing number of ontologies being developed focussed on sub-domains of this vast area of research, as well as their increasing size and quality. In particular, the community has established an ambitious goal to represent all of the relevant knowledge for this domain in ontologies, with projects stemming from this goal such as BioPortal, the OBO Foundry, and OntoBee.
+
+BioPortal is an online platform that provides access to biomedical ontologies~\citep{Noy2009,Whetzel2011}. As of October~2015, it contains $467$~ontologies and a total of almost $6.4$~million concepts. These ontologies are related to each other through ``mappings'', which are community provided alignments between the ontologies: for instance, the concept of \term{Femur} from the \ontology{NCIt} is mapped with the relation \prop{skos:closeMatch} to $34$~concepts from $26$~other ontologies. These mappings express the notion that all of these concepts represent the same real-life idea, \ie they are different (sometimes complementary, sometimes distinct) representation of the upper leg bone.
+
+The OBO Foundry is a collaborative experiment designed with a purpose~\citep{Smith2007}:
+\begin{quote}
+    To establish a set of principles for ontology development with the goal of creating a suite of orthogonal, interoperable, reference ontologies in the biomedical domain.
+\end{quote}
+As of October~2015, this foundry has created a set of principles to guide biomedical ontology development, and they list $9$~ontologies that most faithfully obey them (in domains such as anatomy and molecular function), along with $126$~other ontologies distributed through $28$~distinct domains of knowledge that try to follow the guidelines but have yet to be accepted as full OBO ontologies.
+
+These two projects have different views on the work needed to release an ontology to the community. While BioPortal is a free store of ontologies, where any user can upload an ontology without approval by any entity, the OBO Foundry is run under the expectation that ontologies must be evaluated by the community before being endorsed and accepted as reference ontologies. Together with the use of the objective guidelines to direct the ontology development process, this ensures a minimal amount of quality that is not guaranteed to be present in BioPortal's ontologies. In fact, BioPortal's objective is not to be a hub of good quality ontologies but simply as a front-end for users to access them.
+
+Similar to BioPortal, OntoBee works as a front-end to serve ontology requests to users~\citep{Xiang2011}. Its backed by the OBO Foundry ontologies and, as such, it can only answer queries about the concepts of those ontologies.
+
+Outstanding examples of biomedical ontologies that have been regarded by the community as reference ontologies to represent sub-domains of knowledge, and which have been used throughout my work, include:
+\begin{description}
+    \item[Gene Ontology (\ontology{GO})] The principal focus of \ontology{GO} is on proteins and other gene products (molecules that are created based on DNA): this ontology contains three branches, one for the biochemical functions of gene products, one for their cellular localization, and one for the biological processes in which they participate. The ontology contains, as of October~2015, over $40{,}000$~concepts, related to one another by means of $8$~properties. It has been in development since~2000, the year that the first human genome was sequenced~\citep{Ashburner2000}.
+    
+    \item[Chemical Entities of Biological Interest (\ontology{CHEBI})] The focus of this ontology is on small molecules that have a biological role, especially (but not exclusively) in the human organism. This ontology represents over $44{,}000$~concepts, related by means of $9$~properties. It has been in development since~2007~\citep{Degtyarenko2008a}, and contains information integrated from more than $20$~different external sources.
+    
+    \item[Foundational Model of Anatomy (\ontology{FMA})] This ontology represents the domain of human anatomy. The development of this ontology started in 1995~\citep{Rosse1995} and has since then gone through several major overhauls. It currently contains almost $80{,}000$~concepts, which are related to one another by approximately $60$~different properties. While this ontology has been initially developed using techniques different from the OWL language, it has now been converted to OWL. However, some of the information in the original format is not expressible in OWL and is missing from this version~\citep{Golbreich2005a,Golbreich2013}. For example, only $6$~properties have been ported to OWL.
+    
+    \item[Human Disease Ontology (\ontology{DOID})] This ontology describes human diseases, in a clinically relevant manner, and includes genetic, environmental and infectious diseases. \ontology{DOID} encapsulates a comprehensive theory of disease. Its structure and external references to other terminologies enable the integration of disparate datasets~\citep{Osborne2009}.
+\end{description}
+
+These are the some of the ontologies that have been developed with greatest attention to detail in the biomedical domain. They satisfy three characteristics that largely increase their usefulness:
+\begin{paralist}
+    \item comprehension \mdash most of the relevant concepts for each domain are represented in some way in the ontologies;
+    \item precision \mdash concepts are specifically defined, \eg \ontology{GO} contains the concept \term{Production of molecular mediator of immune response}; and
+    \item detail \mdash the level of detail and granularity in the ontologies is high, \eg \ontology{CHEBI} contains the concept \term{Carbon-12 atom}, and even subatomic particles, and \ontology{FMA} contains the concept \term{Cell}.
+\end{paralist}
+
+Apart from these content-wise characteristics, there are other properties that make these some of the most successful biomedical ontologies. First, they are formal, follow first-order logic constructions and are generally deployed in OWL or an equivalently formal ontology language (like OBO). Second, they are community driven, which means they are free to use and publicly available, and, more importantly, provide a minimal guarantee of maintenance. Third, the ontologies are being used by the community to annotate complex entities (like proteins, metabolic pathways, \etc.).
+
+The formal ontologies used in my work that are not part of the previous list are:
+\begin{itemize}
+    \item \textbf{Environment Ontology} (\ontology{ENVO}) represents environments and environmental conditions.
+    
+    \item \textbf{Phenotypic Quality Ontology} (\ontology{PATO}) represents qualities that are inherent to concepts from other ontologies, such as gene products or anatomical entities. Examples of qualities are \term{Red}, \term{High temperature} and \term{Small}.
+    
+    \item \textbf{Symptoms Ontology} (\ontology{SYMP}) represents human symptoms, which are defined within this ontology as ``perceived changes in function, sensation or appearance reported by a patient and indicative of a disease''.
+    
+    \item \textbf{Transmission Modes Ontology} (\ontology{TRANS}) represent modes of infectious disease transmission.
+    
+    \item \textbf{Vaccines Ontology} (\ontology{VO}) represents vaccine-related concepts.
+\end{itemize}
+
+At last, other vocabularies used in my work are \ontology{MeSH} and \ontology{NCIt}. These are not formal ontologies in the sense described in \secref{sec:concepts/ontologies} \mdash they are hierarchies of concepts that are related to one another with underspecified properties. They \emph{do} have OWL representations that try to capture their hierarchy, but since the same OWL property is used to represent all the relationships between concepts, which are not always equal in semantics, the concepts represented in these ontologies do not accurately reflect reality in a logical manner.

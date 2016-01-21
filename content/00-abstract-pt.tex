@@ -1,0 +1,90 @@
+\cleardoublepage
+\pdfbookmark{Resumo}{Resumo}
+\begin{abstract}
+
+\catcode`\_\active
+\def_{\discretionary{-}{-}{-}}
+\frenchspacing
+
+As práticas que levam à descoberta científica estão geralmente associadas à necessidade de comparar entidades relevantes para essa mesma descoberta. Por exemplo, em medicina a comparação de um novo caso clínico com uma base de dados de casos antigos pode ajudar uma equipa médica a acelerar o processo de diagnóstico ou mesmo de tratamento; em investigação laboratorial, a semelhança na estrutura molecular de compostos químicos é útil na pesquisa de novos fármacos.
+
+Apesar da necessidade de comparar as entidades anteriormente exemplificadas, é difícil encontrar métodos automáticos que sejam reprodutíveis, generalizáveis, e que consigam lidar com a diversidade destes dados. Na verdade, qualquer método automático tem obrigatoriamente de se basear numa representação objetiva e computacionalmente tratável dos dados, \eg objetos matemáticos como vetores ou sequências de caracteres. No entanto, a comparação de tais objetos é independente do contexto, \ie estes algoritmos de comparação transformam os dados sem qualquer conhecimento do seu significado. Além disso, este tipo de representação elimina por vezes informação relevante acerca das entidades. Exemplos de soluções pontuais para alguns tipos de dados incluem:
+\begin{itemize}
+    \item Comparação de compostos químicos através da sua estrutura molecular representada através de um grafo, onde os nós representam átomos e os arcos representam ligações químicas. Esta comparação pressupõe que uma semelhança na estrutura implica uma semelhança na atividade química dos compostos, uma relação que nem sempre é válida.
+    \item Comparação de proteínas através da sua sequência de aminoácidos, o que como anteriormente nem sempre é válido uma vez que sequências parecidas não correspondem sempre a funções parecidas.
+\end{itemize}
+
+Por outro lado, há entidades que não são trivialmente representadas de forma matemática. Por exemplo, como comparar dois casos clínicos? Uma das formas de ultrapassar esta dificuldade é representar o próprio \emph{significado} num formato que possa ser interpretado por computadores, uma prática conhecida como representação do conhecimento.
+
+A representação do conhecimento é uma área de investigação que tem como objetivo definir formas de tornar o conhecimento manipulável por computadores, tal como é manipulado por seres humanos, o que permite aplicar sobre ele algoritmos de raciocínio automático. O princípio mais útil desta área para o meu trabalho é que o conhecimento pode ser representado sob a forma de \emph{ontologias}, que são definidas, de forma simplista, como um conjunto
+\begin{paralist}
+    \item de conceitos relativos a um domínio do conhecimento, e
+    \item das relações entre eles.
+\end{paralist}
+Por exemplo, uma ontologia que representa conhecimento anatómico define que \term{Coração} é um tipo de \term{Órgão}, e que \term{Fémur} é um \term{Osso} que \prop{articula_com} a \term{Tíbia}. As ontologias fornecem assim um \emph{significado} aos conceitos, não de forma explícita (como acontece por exemplo num dicionário, onde o significado é descrito em texto), mas de uma forma implícita, que emerge das relações definidas entre eles.
+
+As ontologias permitem quantificar objetivamente o grau de semelhança entre os conceitos nelas contidos, através da comparação dos seus significados. Esta prática, conhecida como \emph{semelhança semântica}, permite determinar, por exemplo, que \term{Braço} é mais semelhante a~\term{Perna} do que a~\term{Coração}, uma vez que \term{Braço} e~\term{Perna} representam tipos de~\term{Membro}, enquanto que \term{Braço} e~\term{Coração} partilham entre eles apenas o conceito genérico~\term{Parte do corpo}.
+
+Além da comparação entre conceitos, as ontologias permitem a comparação de entidades que estejam \emph{anotadas} com esses conceitos. No contexto deste documento, anotar uma entidade consiste em associar a essa entidade informação computacionalmente tratável que a descreva, geralmente através de conceitos de ontologias. Uma anotação não é mais do que uma descrição objetiva de um facto: ``esta entidade está relacionada com este conceito''. Por exemplo, é prática comum anotar as proteínas de uma base de dados com conceitos que representam as suas funções. Ao comparar as anotações de duas proteínas estamos efetivamente a comparar as duas proteínas; torna_se assim possível utilizar o próprio significado biológico das proteínas para as comparar, não sendo necessário recorrer a representações mais simplistas, como a sequência de aminoácidos.
+
+Um dos aspetos da prática de semelhança semântica pouco investigados até ao momento é a questão da multidisciplinaridade dos dados. Em particular, na informática biomédica, os dados existentes são geralmente descritos com recurso a múltiplos domínios de conhecimento. Por exemplo, um caso clínico pode estar anotado com conceitos relativos aos sintomas, aos resultados de análises ao sangue, aos medicamentos prescritos, ou até a conceitos menos óbvios como os locais anteriormente visitados pelo paciente ou as suas condições sócio_económicas. Todos estes aspetos podem influenciar o diagnóstico e o tratamento escolhido, sendo portanto essenciais para um cálculo preciso da semelhança entre casos clínicos.
+
+Este documento reporta a minha investigação na área da semelhança semântica no que respeita à sua aplicação em contexto multidisciplinar. Até à data, não existem trabalhos científicos publicados neste campo de investigação, sendo este o primeiro a surgir, não só na comunidade da informática biomédica como também no resto da comunidade científica. Eu proponho duas abordagens para comparar entidades multidisciplinares:
+\begin{enumerate}
+    \item Na abordagem \emph{agregativa}, todos os domínios de anotação são usados de forma isolada uns dos outros para calcular vários valores de semelhança unidisciplinar com um algoritmo pré_existente (\eg os sintomas de um caso clínico são comparados com os sintomas do outro caso clínico, depois os medicamentos de um caso com os medicamentos do outro, depois as condições sócio-económicas, \etc.). Os valores são por fim agregados matematicamente, \eg através da média.
+    \item Na abordagem \emph{integrativa}, todas as ontologias relevantes são unificadas numa grande ontologia multidisciplinar, sendo em seguida aplicado um algoritmo de semelhança semântica pré_existente para comparar o conjunto de todas as anotações de uma entidade com o conjunto de todas as anotações da outra entidade.
+\end{enumerate}
+
+Ambas as abordagens se baseiam na existência de um algoritmo capaz de comparar dois conjuntos de conceitos provenientes de uma só ontologia (\emph{algoritmo de ontologia única}). Esta escolha baseia_se no facto de já existirem várias medidas capazes de executar essa tarefa, amplamente estudadas e aplicadas em vários casos. Além disso, as duas abordagens propostas são independentes da medida pré_existente utilizada, sendo portanto possível utilizar uma medida apropriada para o contexto em questão.
+
+A metodologia seguida para provar que as medidas de semelhança multidisciplinar são eficazes no seu objetivo consistiu essencialmente em cinco passos:
+\begin{enumerate}
+    \item recolher dados multidisciplinares;\label{resumo:data}
+    \item validar as duas abordagens acima descritas aplicando_as aos dados recolhidos;\label{resumo:multi}
+    \item sistematizar os métodos de validação de semelhança semântica;\label{resumo:hierarchy}
+    \item propor melhorias às medidas de semelhança de ontologia única; e\label{resumo:enhancements}
+    \item criar \emph{software} para calcular a semelhança semântica de forma reprodutível.\label{resumo:software}
+\end{enumerate}
+
+Ao longo do meu doutoramento, recolhi três conjuntos de dados multidisciplinares anotados com conceitos de várias ontologias (passo~\ref{resumo:data}):
+\begin{paralist}
+    \item um conjunto de artigos científicos da área da epidemiologia anotados com conceitos como doenças, sintomas, vacinas, modos de transmissão, \etc.;
+    \item um conjunto de vias metabólicas anotadas com compostos químicos, enzimas, doenças associadas a erros na via metabólica e drogas que afetam o funcionamento das vias; e
+    \item um conjunto de modelos matemáticos de sistemas biológicos, anotados com compostos químicos, enzimas, entidades anatómicas e fenótipos.
+\end{paralist}
+
+Para validar as abordagens multidisciplinares (passo~\ref{resumo:multi}), segui três estratégias de validação distintas:
+\begin{paralist}
+    \item prever novas anotações com base nas já existentes,
+    \item classificar automaticamente os dados com base nas suas anotações, e
+    \item comparar os valores de semelhança obtidos automaticamente com valores de semelhança atribuídos manualmente por especialistas.
+\end{paralist}
+Em cada uma destas estratégias, calculei uma métrica de desempenho que permite determinar a validade das medidas de semelhança semântica.
+
+Os resultados obtidos com as três estratégias de validação mostram empiricamente que as medidas de semelhança multidisciplinares são de facto eficazes. Por comparação do desempenho atingido por cada abordagens multidisciplinar (agregativa e integrativa), conclui_se que a abordagem integrativa é em geral superior à abordagem agregativa. Este resultado corresponde ao que era esperado, uma vez que a abordagem integrativa tem acesso a mais informação, pois utiliza relações existentes entre conceitos de duas ontologias diferentes e portanto atinge valores de semelhança mais precisos.
+
+Comparei ainda o desempenho das abordagens multidisciplinares com o desempenho obtido com as medidas de semelhança de ontologia única. Apenas em alguns casos excecionais as abordagens multidisciplinares não foram superiores às medidas de ontologia única (esta situação ocorre essencialmente quando se utilizam anotações de uma ontologia que já representa, por si mesma, vários domínios de conhecimento, e portanto a adição de novos domínios de anotação não melhora o resultado).
+
+Outras contribuições importantes foram atingidas com este trabalho. Nomeadamente:
+\begin{itemize}
+    \item Estabeleci uma hierarquia de estratégias de validação para utilizar no desenvolvimento de semelhança semântica, a qual permite organizar os vários métodos de acordo com o tipo de aplicações onde podem ser usados (passo~\ref{resumo:hierarchy}).
+    \item Propus novas medidas de semelhança de ontologia única que exploram uma maior quantidade da informação representada nas ontologias, aumentando não só o leque de algoritmos disponíveis mas também o seu desempenho (passo~\ref{resumo:enhancements}).
+    \item Desenvolvi uma infraestrutura de \emph{software} que permite obter resultados de semelhança semântica não só de forma rápida mas reprodutível, sendo extensível, ou seja, permite que outros investigadores facilmente implementem os seus algoritmos de semelhança semântica (passo~\ref{resumo:software}).
+\end{itemize}
+
+Com o aumento da quantidade de conhecimento que nós humanos vamos construindo e ao qual vamos tendo acesso, é a simbiose entre investigadores e métodos automáticos que permite gerir o conhecimento de forma eficiente. Só assim poderemos, como comunidade, garantir a descoberta de nova informação e assegurar que ela pode ser utilizada no futuro. A semelhança semântica é apenas um dos aspetos desta automatização.
+
+A minha contribuição, como quase todas em ciência, permite vislumbrar apenas um pouco além da fronteira que engloba o conhecimento humano, mas juntamente com as descobertas de milhões de outros cientistas, está a construir e a melhorar o conhecimento que temos do nosso mundo e de nós próprios. Assim, considero que o meu trabalho é um pequeno mas robusto passo em direção ao futuro da Ciência.
+
+
+\begin{keywords}
+    Semelhança semântica multidisciplinar,
+    Ontologias biomédicas,
+    Anotação de entidades biomédicas,
+    Web Ontology Language,
+    Web semântica,
+    Validação de semelhança semântica,
+    Multidisciplinaridade dos dados biomédicos
+\end{keywords}
+
+\end{abstract}

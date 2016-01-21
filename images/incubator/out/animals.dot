@@ -1,0 +1,18 @@
+digraph G {
+    splines="";
+    node [style="n"];
+
+    Wolf [label="Wolf"];
+
+    Animal -> Amphibian;
+    Animal -> Mammal;
+    Animal -> Carnivore;
+    Animal -> Herbivore;
+
+    Amphibian -> Frog;
+    Mammal -> Wolf;
+    Mammal -> Cow;
+    Carnivore -> Frog;
+    Carnivore -> Wolf;
+    Herbivore -> Cow;
+}

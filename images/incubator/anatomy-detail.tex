@@ -1,0 +1,116 @@
+\documentclass[crop,tikz,12pt]{standalone}
+
+\usepackage{tikz-qtree}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{decorations.text}
+
+\definecolor{bg1}{RGB}{244,231,195}
+\definecolor{bg2}{RGB}{234,204,161}
+\definecolor{l1}{RGB}{209,148,106}
+
+\definecolor{l2}{RGB}{112,201,79}
+\definecolor{l3}{RGB}{62,108,169}
+
+\begin{document}
+
+\begin{tikzpicture}[
+    level distance=4em,
+    sibling distance=2em,
+    every tree node/.style={
+        align=center, font=\sffamily
+    },
+    edge from parent/.append style={
+        line width=0,
+        color=l1
+    },
+    edge from parent path={
+        (\tikzparentnode.south) -- +(0,-1em) -| (\tikzchildnode)
+    },
+    g/.append style={
+        dashed, draw=l1,
+        -{Computer Modern Rightarrow[] . Computer Modern Rightarrow[]}
+    },
+    b/.append style={
+        {Computer Modern Rightarrow[] . Computer Modern Rightarrow[]}%
+        -{Computer Modern Rightarrow[] . Computer Modern Rightarrow[]}
+    },
+    l/.style={
+        fill=white,inner sep=0.7mm,node font=\scriptsize\itshape
+    },
+    s/.append style={
+        line width=1.8pt,
+        -{Computer Modern Rightarrow[length=2mm,width=3.8mm]}
+    },
+    s2/.style={s,dashed,draw=l2},
+    s3/.style={s,dotted,draw=l3}
+]
+    \clip (-12.3, -7) rectangle (-3.2, 0);
+    
+    \Tree [
+        .\node (structure) {Anatomical\\structure}; [
+            .\node (chamber) {Cardiac\\chamber}; [
+                .\node (ventricle) {Ventricle};
+                    \node (lventricle) [yshift=-1cm] {Left\\ventricle};
+                    \node (rventricle) [yshift=.2cm] {Right\\ventricle};
+            ] [
+                .\node (atrium) {Atrium};
+                    \node (latrium) [yshift=-1cm] {Left\\atrium};
+                    \node (ratrium) [yshift=.2cm] {Right\\atrium};
+            ]
+        ] [
+            .\node (organ) {Organ}; [
+                .\node (cavitated) {Cavitated\\organ};
+                    \node (heart) {Heart};
+                    \node (stomach) {Stomach};
+            ] [
+                .\node (solid) {Solid\\organ};
+                    \node (pancreas) {Pancreas};
+            ]
+        ]
+        [
+            .\node (system) {Organ system};
+                \node (alimentary) {Alimentary\\system};
+                \node (cardio) {Cardiovascular\\system};
+        ]
+    ]
+    
+    \path (chamber)
+        edge [g,out=0,in=120] node [l,pos=0.2] {part-of}
+        (heart);
+    
+    \path (lventricle)
+        edge [g,b] node [l,pos=0.5] {adjacent-to}
+        (latrium);
+    
+    \path (rventricle)
+        edge [g,b] node [l,pos=0.5] {adjacent-to}
+        (ratrium);
+    
+    \path (stomach)
+        edge [g,out=310,in=270] node [l,pos=0.2] {part-of}
+        (alimentary);
+    
+    \path (pancreas)
+        edge [g,out=20,in=270] node [l,pos=0.3] {part-of}
+        (alimentary);
+    
+    \path (heart)
+        edge [g,out=300,in=240] node [l,pos=0.2] {part-of}
+        (cardio);
+    
+    \path ([xshift=-5pt]lventricle.north) edge[s2,out=120,in=195] (ventricle);
+    \path (ventricle) edge[s2,out=0,in=80] ([xshift=10pt]rventricle.north);
+    
+    \path ([xshift=-6pt]lventricle.north) edge[s3,out=140,in=175] (ventricle);
+    \path ([xshift=-10pt]ventricle.north) edge[s3,out=90,in=180] (chamber);
+    \path (chamber) edge[s3,out=0,in=90] ([xshift=10pt]atrium.north);
+    \path (atrium) edge[s3,out=0,in=80] ([xshift=10pt]ratrium.north);
+    
+\end{tikzpicture}
+
+\end{document}
+
+
+
+
+
